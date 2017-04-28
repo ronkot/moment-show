@@ -1,0 +1,23 @@
+.Moment {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+}
+    .Moment--title {
+        font-family: 'Rubik', sans-serif;
+        position: absolute;
+        right: 2vmax;
+        bottom: 0;
+        text-transform: uppercase;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 4vmax;
+    }
+    .Moment--image {
+        background-size: cover;
+        background-position: center center;
+        z-index: -1;
+        width: 100%;
+        height: 100%;
+     }
