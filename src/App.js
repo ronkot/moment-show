@@ -12,8 +12,10 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      moments: []
+      moments: [],
+      currentIndex: 0
     }
+    this.nextMoment = this.nextMoment.bind(this)
   }
 
   async componentDidMount() {
@@ -22,13 +24,16 @@ class App extends Component {
     this.setState({ moments: moments.items })
   }
 
+  nextMoment() {
+    const nextIndex = (this.state.currentIndex + 1) % this.state.moments.length
+    this.setState({ currentIndex: nextIndex })
+  }
+
   render() {
-    const renderMoments = () => {
-      return this.state.moments.map(moment => <Moment key={moment.sys.id} moment={moment} />)
-    }
+    const moment = this.state.moments[this.state.currentIndex]
     return (
       <div>
-        {renderMoments()}
+        {moment && <Moment moment={moment} onNext={this.nextMoment} />}
       </div>
     )
   }
