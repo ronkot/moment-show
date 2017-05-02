@@ -1,10 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import GoogleMapReact from 'google-map-react';
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 
+import Map from '../Map/Map'
 import './Moment.css'
-
-const MapMarker = () => <div className="Moment--map-marker" />
 
 class Moment extends React.Component {
   static propTypes = {
@@ -17,25 +16,33 @@ class Moment extends React.Component {
     this.state = {
       mapVisible: true
     }
+    this.timer = null
     this.hideMap = this.hideMap.bind(this)
+    this.handleEnd = this.handleEnd.bind(this)
     console.log('constructor')
   }
 
   componentDidMount() {
     console.log('didmount', this.refs)
-    this.refs.audio.addEventListener('ended', this.props.onNext)
-    setTimeout(this.hideMap, 4000)
+    this.refs.audio.addEventListener('ended', this.handleEnd)
+    this.timer = setTimeout(this.hideMap, 6000)
   }
 
   componentWillUnmount() {
-    this.refs.audio.removeEventListener('ended', this.props.onNext)
+    this.refs.audio.removeEventListener('ended', this.handleEnd)
+  }
+
+  handleEnd() {
+    this.timer && clearInterval(this.timer)
+    this.props.onNext()
   }
 
   componentWillReceiveProps(nextProps) {
     console.log('willreceive')
     if (nextProps.moment !== this.props.moment) {
       this.setState({ mapVisible: true })
-      setTimeout(this.hideMap, 4000)
+      this.timer && clearInterval(this.timer)
+      this.timer = setTimeout(this.hideMap, 6000)
     }
   }
 
@@ -47,38 +54,40 @@ class Moment extends React.Component {
   render() {
     const { fields } = this.props.moment
 
-    const renderImages = () => {
+    const renderImage = () => {
       const image = fields.images[0]
       if (!image) return null
-      return <div className="Moment--image" style={{backgroundImage: `url(${image.fields.file.url})`}} />
+
+      return <div key='image' className="Moment--image" style={{backgroundImage: `url(${image.fields.file.url})`}} />
     }
 
     const renderAudio = () => {
       const audio = fields.sounds[0]
       if (!audio) return null
-      return <audio ref="audio" src={audio.fields.file.url} autoPlay>Your browser doesn't support HTML5 audio</audio>
+      return (
+        <audio ref="audio" src={audio.fields.file.url} autoPlay>
+          Your browser doesn't support HTML5 audio
+        </audio>
+      )
     }
 
     const renderMap = () => {
       if (!fields.location) return null
-      const pos = {
-        lat: fields.location.lat,
-        lng: fields.location.lon
-      }
-      return <GoogleMapReact
-        defaultCenter={pos}
-        defaultZoom={14}
-      >
-        <MapMarker {...pos} />
-      </GoogleMapReact>
+      return <Map key='map' lat={fields.location.lat} lng={fields.location.lon} visible={this.state.mapVisible} />
     }
 
     return (
-      <div className="Moment" onClick={this.props.onNext}>
-        <h1 className="Moment--title">{fields.name}</h1>
+      <div className="Moment" onClick={this.handleEnd}>
         {renderAudio()}
-        {!this.state.mapVisible && renderImages()}
-        {this.state.mapVisible && renderMap()}
+        <CSSTransitionGroup
+          transitionName="Moment--item"
+          transitionAppear={true}
+          transitionAppearTimeout={500}
+          transitionEnterTimeout={500}
+          transitionLeaveTimeout={500}>
+          <h1 key='title' className="Moment--title">{fields.name}</h1>
+          {this.state.mapVisible ? renderMap() : renderImage()}
+        </CSSTransitionGroup>
       </div>
     )
   }
