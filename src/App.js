@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import * as contentful from 'contentful'
+
 import './App.css';
 import Moment from './Moment'
-import * as contentful from 'contentful'
+import FullScreen from './FullScreen'
 
 const client = contentful.createClient({
   space: 'oz8k3o360ryy',
@@ -21,6 +23,7 @@ class App extends Component {
   async componentDidMount() {
     const moments = await client.getEntries()
     this.setState({ moments: moments.items })
+
   }
 
   nextMoment() {
@@ -33,6 +36,7 @@ class App extends Component {
     const locations = this.state.moments.map(moment => moment.fields.location)
     return (
       <div>
+        <FullScreen />
         {moment && <Moment moment={moment} onNext={this.nextMoment} locations={locations} />}
       </div>
     )
