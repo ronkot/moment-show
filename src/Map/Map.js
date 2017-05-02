@@ -25,6 +25,7 @@ class Map extends React.Component {
     return (
       <span className={'Map' + (!this.props.visible ? ' Map__is-hidden' : '')}>
         <GoogleMapReact
+          bootstrapURLKeys={{key: 'AIzaSyArUj_iNob6KHUOrlrgTz_9FpVvODSA5JA'}}
           defaultCenter={Helsinki}
           defaultZoom={12}
           options={{
