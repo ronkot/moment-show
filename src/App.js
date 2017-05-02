@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import Moment from './Moment/Moment'
+import Moment from './Moment'
 import * as contentful from 'contentful'
 
 const client = contentful.createClient({
@@ -20,7 +20,6 @@ class App extends Component {
 
   async componentDidMount() {
     const moments = await client.getEntries()
-    console.log(moments)
     this.setState({ moments: moments.items })
   }
 

@@ -21,7 +21,6 @@ class Map extends React.Component {
   }
 
   render() {
-    console.log('map', this.props.all, this.props.current)
     const markers = this.props.all.map((location, i) =>
       <MapMarker key={i} lat={location.lat} lng={location.lon} active={location === this.props.current} />
     )
