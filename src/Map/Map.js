@@ -6,7 +6,7 @@ import theme from './theme.json'
 import './Map.css'
 
 
-const MapMarker = () => <div className="Map--marker" />
+const MapMarker = ({ active }) => <div className={"Map--marker" + (active ? ' Map--marker__isActive' : '')} />
 
 const Helsinki = {
   lat: 60.17020786,
@@ -15,19 +15,23 @@ const Helsinki = {
 
 class Map extends React.Component {
   static propTypes = {
-    lat: PropTypes.number.isRequired,
-    lng: PropTypes.number.isRequired,
+    current: PropTypes.object.isRequired,
+    all: PropTypes.array.isRequired,
     visible: PropTypes.bool
   }
 
   render() {
-    const pos = {lat: this.props.lat, lng: this.props.lng}
+    console.log('map', this.props.all, this.props.current)
+    const markers = this.props.all.map((location, i) =>
+      <MapMarker key={i} lat={location.lat} lng={location.lon} active={location === this.props.current} />
+    )
+
     return (
       <span className={'Map' + (!this.props.visible ? ' Map__is-hidden' : '')}>
         <GoogleMapReact
           bootstrapURLKeys={{key: 'AIzaSyArUj_iNob6KHUOrlrgTz_9FpVvODSA5JA'}}
           defaultCenter={Helsinki}
-          defaultZoom={12}
+          defaultZoom={11}
           options={{
             styles: theme,
             draggable: false,
@@ -35,7 +39,7 @@ class Map extends React.Component {
             scrollwheel: false,
             disableDoubleClickZoom: true
           }}>
-          <MapMarker {...pos} />
+          {markers}
         </GoogleMapReact>
       </span>
     )

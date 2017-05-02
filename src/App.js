@@ -31,9 +31,10 @@ class App extends Component {
 
   render() {
     const moment = this.state.moments[this.state.currentIndex]
+    const locations = this.state.moments.map(moment => moment.fields.location)
     return (
       <div>
-        {moment && <Moment moment={moment} onNext={this.nextMoment} />}
+        {moment && <Moment moment={moment} onNext={this.nextMoment} locations={locations} />}
       </div>
     )
   }

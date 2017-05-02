@@ -8,6 +8,7 @@ import './Moment.css'
 class Moment extends React.Component {
   static propTypes = {
     moment: PropTypes.object.isRequired,
+    locations: PropTypes.array.isRequired,
     onNext: PropTypes.func.isRequired
   }
 
@@ -73,7 +74,7 @@ class Moment extends React.Component {
 
     const renderMap = () => {
       if (!fields.location) return null
-      return <Map key='map' lat={fields.location.lat} lng={fields.location.lon} visible={this.state.mapVisible} />
+      return <Map key='map' current={fields.location} all={this.props.locations}  visible={this.state.mapVisible} />
     }
 
     return (
