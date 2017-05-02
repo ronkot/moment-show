@@ -27,7 +27,13 @@ class Map extends React.Component {
         <GoogleMapReact
           defaultCenter={Helsinki}
           defaultZoom={12}
-          options={{ styles: theme }}>
+          options={{
+            styles: theme,
+            draggable: false,
+            zoomControl: false,
+            scrollwheel: false,
+            disableDoubleClickZoom: true
+          }}>
           <MapMarker {...pos} />
         </GoogleMapReact>
       </span>
