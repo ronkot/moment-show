@@ -8,11 +8,12 @@
     .Moment--title {
         z-index: 1;
         position: absolute;
-        right: 2vmax;
+        right: 40px;
         bottom: 0;
         text-transform: uppercase;
-        color: rgb(119, 136, 154);
-        font-size: 4vmax;
+        color: #578099;
+        font-size: 40px;
+        font-weight: lighter;
     }
     .Moment--image {
         background-size: cover;
@@ -22,19 +23,16 @@
         height: 100%;
      }
     .Moment--item-enter {
-        opacity: 0.01;
+        opacity: 0;
+        transition: opacity 2000ms ease-in;
     }
-
     .Moment--item-enter.Moment--item-enter-active {
         opacity: 1;
-        transition: opacity 500ms ease-in;
     }
-
     .Moment--item-leave {
         opacity: 1;
+        transition: opacity 2000ms ease-in;
     }
-
     .Moment--item-leave.Moment--item-leave-active {
-        opacity: 0.01;
-        transition: opacity 500ms ease-in;
+        opacity: 0;
     }

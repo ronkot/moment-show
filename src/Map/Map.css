@@ -13,7 +13,9 @@
         top: -10px;
         background: #9a9a9a;
         border-radius: 100%;
+        border: 1px solid #bbbbbb;
     }
     .Map--marker__isActive {
         background: #578099;
+        z-index: 1;
     }

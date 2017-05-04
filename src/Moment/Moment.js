@@ -53,6 +53,17 @@ class Moment extends React.Component {
   render() {
     const { fields } = this.props.moment
 
+    const renderTitle = () => {
+      if (!this.state.mapVisible) return null
+      return <h1 key='title' className="Moment--title">{fields.name}</h1>
+    }
+
+    const renderMap = () => {
+      if (!this.state.mapVisible) return null
+      if (!fields.location) return null
+      return <Map key='map' current={fields.location} all={this.props.locations}  visible={this.state.mapVisible} />
+    }
+
     const renderImage = () => {
       if (this.state.mapVisible) return null
       const image = fields.images[0]
@@ -67,21 +78,16 @@ class Moment extends React.Component {
       return <Audio src={audio.fields.file.url} onEnd={this.props.onNext} />
     }
 
-    const renderMap = () => {
-      if (!this.state.mapVisible) return null
-      if (!fields.location) return null
-      return <Map key='map' current={fields.location} all={this.props.locations}  visible={this.state.mapVisible} />
-    }
 
     return (
       <div className="Moment" onClick={this.handleEnd}>
         <CSSTransitionGroup
           transitionName="Moment--item"
           transitionAppear={true}
-          transitionAppearTimeout={500}
-          transitionEnterTimeout={500}
-          transitionLeaveTimeout={500}>
-          <h1 key='title' className="Moment--title">{fields.name}</h1>
+          transitionAppearTimeout={2000}
+          transitionEnterTimeout={2000}
+          transitionLeaveTimeout={2000}>
+          {renderTitle()}
           {renderMap()}
           {renderImage()}
           {renderAudio()}
