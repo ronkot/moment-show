@@ -28,8 +28,8 @@ class Audio extends React.Component {
   increaseVolume() {
     if (!this.refs.audio) return
     const volume = this.refs.audio.volume
-    if (volume < 0.99) {
-      this.refs.audio.volume = volume + 0.02
+    if (volume < 0.98) {
+      this.refs.audio.volume = volume + 0.01
     } else {
       clearInterval(this.fadeInTimer)
     }
