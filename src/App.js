@@ -21,9 +21,18 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    const moments = await client.getEntries()
-    this.setState({ moments: moments.items })
+    const moments = await this.getMoments()
+    this.setState({ moments })
+  }
 
+  async getMoments() {
+    const moments = (await client.getEntries()).items
+    moments.sort((a, b) => {
+      const aOrder = a.fields.order || Number.MAX_SAFE_INTEGER
+      const bOrder = b.fields.order || Number.MAX_SAFE_INTEGER
+      return aOrder < bOrder ? -1 : 1
+    })
+    return moments
   }
 
   nextMoment() {
