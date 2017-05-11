@@ -14,7 +14,6 @@ class FullScreen extends React.Component {
 
   componentDidMount() {
     screenfull.onchange((...args) => {
-      console.log('FULL', screenfull.isFullscreen, args)
       this.setState({isFullscreen: screenfull.isFullscreen})
     })
   }
