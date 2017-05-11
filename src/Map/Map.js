@@ -6,23 +6,25 @@ import theme from './theme.json'
 import './Map.css'
 
 
-const MapMarker = ({ active }) => <div className={"Map--marker" + (active ? ' Map--marker__isActive' : '')} />
+const MapMarker = ({ order='', active, showOrder=false }) => <div className={"Map--marker" + (active ? ' Map--marker__isActive' : '')}>{showOrder && order}</div>
 
 const Helsinki = {
-  lat: 60.17020786,
-  lng: 24.93518829
+  lat: 60.18523283150753,
+  lng: 24.944801330566406
 }
 
 class Map extends React.Component {
   static propTypes = {
-    current: PropTypes.object.isRequired,
-    all: PropTypes.array.isRequired,
+    moment: PropTypes.object.isRequired,
+    moments: PropTypes.array.isRequired,
     visible: PropTypes.bool
   }
 
   render() {
-    const markers = this.props.all.map((location, i) =>
-      <MapMarker key={i} lat={location.lat} lng={location.lon} active={location === this.props.current} />
+    const markers = this.props.moments.map((moment, i) => {
+       const {location, order} = moment.fields
+       return <MapMarker key={i} lat={location.lat} lng={location.lon} order={order} active={moment === this.props.moment}/>
+      }
     )
 
     return (

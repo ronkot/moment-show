@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+const FADE_DURATION = 5
+
 class Audio extends React.Component {
   static propTypes = {
     src: PropTypes.string.isRequired,
@@ -9,30 +11,26 @@ class Audio extends React.Component {
 
   constructor(props) {
     super(props)
-    this.increaseVolume = this.increaseVolume.bind(this)
+    this.fadeInAndOut = this.fadeInAndOut.bind(this)
   }
 
   componentDidMount() {
     this.refs.audio.volume = 0
     this.refs.audio.addEventListener('ended', this.props.onEnd)
-    this.fadeInTimer = setInterval(this.increaseVolume, 100)
+    this.refs.audio.addEventListener('timeupdate', this.fadeInAndOut)
   }
 
   componentWillUnmount() {
     this.refs.audio.removeEventListener('ended', this.props.onEnd)
-    if (this.fadeInTimer) {
-      clearInterval(this.fadeInTimer)
-    }
+    this.refs.audio.removeEventListener('timeupdate', this.fadeInAndOut)
   }
 
-  increaseVolume() {
-    if (!this.refs.audio) return
-    const volume = this.refs.audio.volume
-    if (volume < 0.98) {
-      this.refs.audio.volume = volume + 0.01
-    } else {
-      clearInterval(this.fadeInTimer)
-    }
+  fadeInAndOut() {
+    const {currentTime, duration} = this.refs.audio
+    const volume = currentTime < (duration - FADE_DURATION)
+      ? Math.min(currentTime / FADE_DURATION, 1)
+      : (duration - currentTime) / FADE_DURATION
+    this.refs.audio.volume = volume
   }
 
   render() {

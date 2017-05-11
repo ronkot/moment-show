@@ -1,11 +1,28 @@
 import React from 'react'
-import * as screenfull from 'screenfull'
+import screenfull from 'screenfull'
 
 import './FullScreen.css'
 
 class FullScreen extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      isFullscreen: false
+    }
+    this.requestFullScreen = this.requestFullScreen.bind(this)
+  }
+
+  componentDidMount() {
+    screenfull.onchange((...args) => {
+      console.log('FULL', screenfull.isFullscreen, args)
+      this.setState({isFullscreen: screenfull.isFullscreen})
+    })
+  }
+
   requestFullScreen() {
-    if (screenfull.enabled) {
+    if (this.state.isFullscreen) {
+      screenfull.exit()
+    } else {
       screenfull.request()
     }
   }
@@ -13,7 +30,7 @@ class FullScreen extends React.Component {
   render() {
     return (
       <div className="FullScreen" onClick={this.requestFullScreen}>
-        Go to full screen
+        {this.state.isFullscreen ? 'Exit full screen' : 'Go to full screen'}
       </div>
     )
   }

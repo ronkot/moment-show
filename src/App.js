@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import * as contentful from 'contentful'
 
 import './App.css';
@@ -42,11 +42,10 @@ class App extends Component {
 
   render() {
     const moment = this.state.moments[this.state.currentIndex]
-    const locations = this.state.moments.map(moment => moment.fields.location)
     return (
       <div>
         <FullScreen />
-        {moment && <Moment moment={moment} onNext={this.nextMoment} locations={locations} />}
+        {moment && <Moment moment={moment} onNext={this.nextMoment} moments={this.state.moments} />}
       </div>
     )
   }

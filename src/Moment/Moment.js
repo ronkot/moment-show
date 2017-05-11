@@ -10,7 +10,7 @@ import './Moment.css'
 class Moment extends React.Component {
   static propTypes = {
     moment: PropTypes.object.isRequired,
-    locations: PropTypes.array.isRequired,
+    moments: PropTypes.array.isRequired,
     onNext: PropTypes.func.isRequired
   }
 
@@ -61,7 +61,7 @@ class Moment extends React.Component {
     const renderMap = () => {
       if (!this.state.mapVisible) return null
       if (!fields.location) return null
-      return <Map key='map' current={fields.location} all={this.props.locations}  visible={this.state.mapVisible} />
+      return <Map key='map' moment={this.props.moment} moments={this.props.moments}  visible={this.state.mapVisible} />
     }
 
     const renderImage = () => {
