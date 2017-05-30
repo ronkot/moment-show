@@ -33,10 +33,10 @@ class Map extends React.Component {
       const minMax = moments.reduce((bounds, moment) => {
           const {lat, lon: lng} = moment.fields.location
           return {
-            maxLat: lat > bounds.maxLat ? lat : bounds.maxLat,
-            maxLng: lng > bounds.maxLng ? lng : bounds.maxLng,
-            minLat: lat < bounds.minLat ? lat : bounds.minLat,
-            minLng: lng < bounds.minLng ? lng : bounds.minLng
+            maxLat: Math.max(lat, bounds.maxLat),
+            maxLng: Math.max(lng, bounds.maxLng),
+            minLat: Math.min(lat, bounds.minLat),
+            minLng: Math.min(lng, bounds.minLng)
           }
         }, {maxLat: Number.MIN_VALUE, maxLng: Number.MIN_VALUE, minLat: Number.MAX_VALUE, minLng: Number.MAX_VALUE}
       )
