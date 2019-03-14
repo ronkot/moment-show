@@ -29,7 +29,7 @@ class Map extends React.Component {
   }
 
   render() {
-    const calculateBounds = (moments) => {  // TODO: Prettier implementation
+    const calculateBounds = (moments) => {
       const minMax = moments.reduce((bounds, moment) => {
           const {lat, lon: lng} = moment.fields.location
           return {
@@ -65,7 +65,7 @@ class Map extends React.Component {
       <Measure onMeasure={this.setDimensions.bind(this)}>
         <span className='Map'>
           <GoogleMapReact
-            bootstrapURLKeys={{key: 'AIzaSyArUj_iNob6KHUOrlrgTz_9FpVvODSA5JA'}}
+            bootstrapURLKeys={{key: 'AIzaSyDQoGEFFrSlBjwFnUvN5pWu1OhTDAtttfA'}}
             center={center}
             zoom={zoom || 12}
             options={{
